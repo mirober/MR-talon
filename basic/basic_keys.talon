@@ -23,10 +23,9 @@ spark: edit.paste()
 stoosh: edit.copy()
 hug curly: key({)
 hug brax: key([)
-
 # Simple keys with repeat
-tabby [<user.n20>]: key("tab:{n20 or 1}")
-tabby lease [<user.n20>]: key("shift-tab:{n20 or 1}")
+(tabby | taboo) [<user.n20>]: key("tab:{n20 or 1}")
+(tabby | taboo) lease [<user.n20>]: key("shift-tab:{n20 or 1}")
 shock [<user.n20>]: key("enter:{n20 or 1}")
 (clear | clearing) [<user.n20>]: key("backspace:{n20 or 1}")
 deli [<user.n20>]: key("delete:{n20 or 1}")

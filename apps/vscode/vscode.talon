@@ -16,6 +16,7 @@ previous tab [<user.n20>]: key("ctrl-pgup:{n20 or 1}")
 <user.numberth> tab: key("alt-{numberth}")
 page back [<user.n20>]: key("alt-left:{n20 or 1}")
 page forward [<user.n20>]: key("alt-right:{n20 or 1}")
+expand selection: key(shift-alt-right)
 #
 line <user.line_numbers>:
     user.vscode_go_line(line_numbers)

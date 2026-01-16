@@ -131,12 +131,17 @@ mux find: key(ctrl-b f)
 mux close: key(ctrl-b x)
 mux step: key(ctrl-b b)
 mux split: key(ctrl-b %)
-mux split horizontal: key(ctrl-b ")
+mux split (horizontal | down): key(ctrl-b ")
 mux swap: key(ctrl-b o)
 mux numbers: key(ctrl-b q)
 mux kill: key(ctrl-b x)
 mux layout: key(ctrl-b space)
 mux page up: key(ctrl-b pgup)
+mux (big) down [<user.n20>]: key("ctrl-b ctrl-down:{n20 or 1}")
+mux (big) left [<user.n20>]: key("ctrl-b ctrl-left:{n20 or 1}")
+mux (big) right [<user.n20>]: key("ctrl-b ctrl-right:{n20 or 1}")
+mux (big) up [<user.n20>]: key("ctrl-b ctrl-up:{n20 or 1}")
+
 
 complete: key(alt-?)
 # ------------------------------------------------

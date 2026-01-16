@@ -1,10 +1,13 @@
 from talon import ui, Module, Context, registry, actions, imgui, cron
 
 mod = Module()
-ctx = Context("C")
+ctx = Context("JS")
 ctx.matches = r"""
-title: /.*\.js$/
+title: /.*\.jsx?$/
+title: /.*\.tsx?$/
 """
+
+mod.list("javascript_types")
 
 @ctx.action_class("user")
 class Actions:
@@ -27,9 +30,34 @@ ctx.lists["user.functions"] = {
     "print": "console.log",
     "query selector": "querySelector",
     "query selector all": "querySelectorAll",
+    "map": "map",
+    "forEach": "forEach",
+    "is array": "Array.isArray",
 }
 
 ctx.lists["user.logicals"] = {
     "and": " && ",
     "or": " || ",
+    "as": " as ",
+    "not equal": " !== ",
+    "equal": " === ",
+
+}
+
+ctx.lists["user.values"] = {
+    "null": "null",
+    "undefined": "undefined",
+    "true": "true",
+    "false": "false",
+}
+
+ctx.lists["user.javascript_types"] = {
+    "string": "string",
+    "number": "number",
+    "boolean": "boolean",
+    "any": "any",
+    "void": "void",
+    "unknown": "unknown",
+    "never": "never",
+    "object": "object",
 }

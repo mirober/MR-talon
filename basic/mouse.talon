@@ -34,3 +34,7 @@ squat:
 bench:
     user.mouse_release()
     user.grid_close()
+kick for <number> seconds:
+    user.mouse_click_for_seconds(number)
+kick for <number> minutes:
+    user.mouse_click_for_minutes(number)

@@ -1,4 +1,5 @@
 title: /\.sql/
+title: /.* \| psql\s*$/
 -
 # Commands
 case when:

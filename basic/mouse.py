@@ -40,3 +40,13 @@ class Actions:
         """move the mouse cursor to the center of the currently active window"""
         rect = ui.active_window().rect
         ctrl.mouse_move(rect.left + (rect.width / 2), rect.top + (rect.height / 2))
+
+    def mouse_click_for_seconds(s: int):
+        """Click the mouse, then click again after s seconds"""
+        ctrl.mouse_click()
+        cron.after(f"{s}s", lambda: ctrl.mouse_click())
+
+    def mouse_click_for_minutes(s: int):
+        """Click the mouse, then click again after s seconds"""
+        ctrl.mouse_click()
+        cron.after(f"{s*60}s", lambda: ctrl.mouse_click())

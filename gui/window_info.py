@@ -1,5 +1,4 @@
 from talon import ui, Module, Context, registry, actions, imgui, cron
-from win32gui import GetWindowText, GetForegroundWindow
 import time
 mod = Module()
 
@@ -8,9 +7,6 @@ def window_info(gui: imgui.GUI):
     gui.text(f"{ui.active_app()}")
     gui.text(f"{ui.active_app().exe}")
     gui.text(f"{ui.active_window().title}")
-    gui.text(f"{GetForegroundWindow()}")
-    gui.text(f"{GetWindowText(GetForegroundWindow())}")
-    gui.text(f"{GetWindowText(ui.active_window().id)}")
     gui.text(f"")
 
     for c in reversed(registry.active_contexts()):

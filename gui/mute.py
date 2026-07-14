@@ -1,7 +1,6 @@
 from subprocess import Popen
 from talon import ui, Module, Context, registry, actions, imgui, cron
 from talon import imgui
-from win32gui import GetForegroundWindow, GetWindowText
 import os
 import time
 

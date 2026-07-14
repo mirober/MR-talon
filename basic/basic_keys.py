@@ -1,4 +1,3 @@
-import toml
 from pathlib import Path
 import re
 from talon import ui, Module, Context, registry, actions, imgui, cron, resource
@@ -53,37 +52,7 @@ ctx.lists["user.extensions"] = {
 
 #------------------------------------------------------
 
-alphabet = {
-    "anti": "a",
-    "bat": "b",
-    "cap": "c",
-    "die": "d",
-    "each": "e",
-    "fail": "f",
-    "gone": "g",
-    "harp": "h",
-    "sit": "i",
-    "jury": "j",
-    "crunch": "k",
-    "look": "l",
-    "made": "m",
-    "near": "n",
-    "odd": "o",
-    "pet": "p",
-    "queer": "q",
-    "quack": "q",
-    "red": "r",
-    "sun": "s",
-    "trap": "t",
-    "urge": "u",
-    "vest": "v",
-    "whale": "w",
-    "box": "x",
-    "yes": "y",
-    "zulu": "z",
-}
 mod.list("alphabet", desc="Alphabet")
-ctx.lists["user.alphabet"] = alphabet
 
 @mod.capture(rule="{user.alphabet}+")
 def letters(m) -> str:

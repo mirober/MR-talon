@@ -89,13 +89,32 @@ class ScreenText:
     # -- drawing -----------------------------------------------------------
 
     def _measure(self, paint):
-        """Return (line_rects, total_width, total_height) for the current text."""
+        """Return (lines, width, line_height, ascent, total_height, left_bearing).
+
+        Line height and ascent come from a fixed reference string (with both
+        ascenders and descenders) rather than each line's own tight bounding
+        box, so every row advances by the same amount and spacing stays even.
+
+        ``measure_text`` gives each line's tight *ink* bounds relative to the
+        pen origin: ``rect.x`` is the left side bearing. We track the overall
+        ink extent so the caller can offset the pen (by ``left_bearing``) and
+        get equal padding on both sides.
+        """
         lines = self.text.split("\n")
-        line_rects = [paint.measure_text(line or " ")[1] for line in lines]
-        width = max((r.width for r in line_rects), default=0)
-        height = sum(r.height for r in line_rects)
-        height += self.line_spacing * max(len(lines) - 1, 0)
-        return lines, line_rects, width, height
+        ref = paint.measure_text("Ayg|")[1]
+        line_height = ref.height
+        ascent = -ref.y
+
+        left_bearing = 0.0
+        right_extent = 0.0
+        for line in lines:
+            rect = paint.measure_text(line or " ")[1]
+            left_bearing = min(left_bearing, rect.x)
+            right_extent = max(right_extent, rect.x + rect.width)
+        width = right_extent - left_bearing
+
+        total_height = line_height * len(lines) + self.line_spacing * max(len(lines) - 1, 0)
+        return lines, width, line_height, ascent, total_height, left_bearing
 
     def _anchor_origin(self, width, height):
         """Top-left corner of the text box given the anchor point and alignment."""
@@ -122,18 +141,21 @@ class ScreenText:
         if self.font is not None:
             paint.typeface = self.font
 
-        lines, line_rects, width, height = self._measure(paint)
+        lines, width, line_height, ascent, total_height, left_bearing = self._measure(paint)
         if not self.text:
             return
 
-        left, top = self._anchor_origin(width, height)
+        left, top = self._anchor_origin(width, total_height)
+        # Shift the pen so the ink's left edge lands on the content-left,
+        # giving equal padding on both sides.
+        pen_x = left - left_bearing
 
         if self.background:
             bg = Rect(
                 left - self.padding,
                 top - self.padding,
                 width + self.padding * 2,
-                height + self.padding * 2,
+                total_height + self.padding * 2,
             )
             paint.style = Paint.Style.FILL
             paint.color = self.background
@@ -141,10 +163,7 @@ class ScreenText:
 
         paint.style = Paint.Style.FILL
         paint.color = self.color
-        y = top
-        for line, rect in zip(lines, line_rects):
-            # rect.y is the (negative) ascent above the baseline, so the
-            # baseline for this line sits at y - rect.y, seating the glyphs
-            # inside the measured box rather than floating above it.
-            canvas.draw_text(line, left, y - rect.y)
-            y += rect.height + self.line_spacing
+        step = line_height + self.line_spacing
+        for i, line in enumerate(lines):
+            # Uniform per-line advance; baseline sits `ascent` below the row top.
+            canvas.draw_text(line, pen_x, top + ascent + i * step)

@@ -1,16 +1,17 @@
-from talon import Module, speech_system
+from talon import Module, speech_system, ui
 
 from .screen_text import ScreenText
 
 mod = Module()
 
 # Overlay showing the most recent recognised phrase.
+_screen = ui.screens()[0]
 recognitions = ScreenText(
     text_size=36,
     color="ffffffff",
     background="00000000",
-    x=2700,
-    y=2110,
+    x=_screen.rect.width - 1200,
+    y=_screen.rect.height - 50,
     font="Consolas",
 )
 recognitions.set_text("===")

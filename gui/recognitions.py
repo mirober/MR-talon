@@ -1,24 +1,35 @@
-from talon import ui, Module, Context, registry, actions, imgui, cron, speech_system
+from talon import Module, speech_system
+
+from .screen_text import ScreenText
 
 mod = Module()
 
-phrase = "==="
+# Overlay showing the most recent recognised phrase.
+recognitions = ScreenText(
+    text_size=36,
+    color="ffffffff",
+    background="00000000",
+    x=2700,
+    y=2110,
+    font="Consolas",
+)
+recognitions.set_text("===")
 
-@imgui.open(x=1200, y=1043)
-def recognitions(gui: imgui.GUI):
-    gui.text(phrase)
 
 @mod.action_class
 class Actions:
     def recognitions_toggle():
         """Toggle the recognition monitor"""
-        recognitions.hide() if recognitions.showing else recognitions.show()
+        recognitions.toggle()
 
 
 def f(o):
-    global phrase
     if o["phrase"]:
-        phrase = " ".join(o["phrase"])
+        txt = " ".join(o["phrase"])
+        if len(txt) > 40:
+            txt = txt[:40] + "..."
+        recognitions.set_text(txt)
+
 
 speech_system.register("post:phrase", f)
 recognitions.show()

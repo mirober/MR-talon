@@ -73,7 +73,7 @@ def format_text(text, capitalisation=0, spacing=0):
 
 @mod.action_class
 class Actions:
-    def formatted_text(phrase: Phrase, capitalisation: Union[str, int], spacing: Union[str, int]) -> str:
+    def formatted_text(phrase: list[str], capitalisation: Union[str, int], spacing: Union[str, int]) -> str:
         """Formats a phrase according to formatters. formatters is a comma-separated string of formatters (e.g. 'CAPITALIZE_ALL_WORDS,DOUBLE_QUOTED_STRING')"""
         if not phrase:
             return ""
@@ -81,19 +81,19 @@ class Actions:
         words = " ".join(phrase)
         return format_text(words, capitalisation, spacing)
 
-    def snake(phrase: Union[Phrase, str]) -> str:
+    def snake(phrase: Union[list[str], str]) -> str:
         """Return snake text"""
         return actions.user.formatted_text(phrase, 0, 3)
 
-    def camel(phrase: Union[Phrase, str]) -> str:
+    def camel(phrase: Union[list[str], str]) -> str:
         """Return camel text"""
         return actions.user.formatted_text(phrase, 3, 1)
 
-    def title(phrase: Union[Phrase, str]) -> str:
+    def title(phrase: Union[list[str], str]) -> str:
         """Return title text"""
         return actions.user.formatted_text(phrase, 2, 1)
 
-    def phrase_to_str(phrase: Union[Phrase, str]) -> str:
+    def phrase_to_str(phrase: Union[list[str], str]) -> str:
         """Parse and join a phrase into a string"""
         words = " ".join(actions.dictate.parse_words(phrase))
         return words
